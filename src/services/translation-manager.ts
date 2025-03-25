@@ -141,7 +141,7 @@ export class TranslationManager {
     const result = JSON.parse(JSON.stringify(originalStructure));
 
     // Recursive helper to set nested values
-    const setValue = (obj: any, path: string[], value: string) => {
+    const setValue = (obj: any, path: string[], value: string): void => {
       const lastKey = path.pop()!;
       const target = path.reduce((acc, key) => acc[key], obj);
       target[lastKey] = value;

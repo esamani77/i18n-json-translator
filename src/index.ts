@@ -1,11 +1,11 @@
 import { TranslationManager } from "./services/translation-manager";
 import path from "path";
 
-async function main() {
+async function main(): Promise<void> {
   try {
     const translationManager = new TranslationManager();
 
-    const outputPath = await translationManager.translateLargeJson({
+    const outputPath: any = await translationManager.translateLargeJson({
       inputJsonPath: path.resolve(__dirname, "../example-input.json"),
       outputDir: path.resolve(__dirname, "../translations"),
       sourceLanguage: "en",

@@ -1,0 +1,28 @@
+# Ignore source files
+src/
+tests/
+.github/
+
+# Ignore configuration files
+.eslintrc
+.gitignore
+.env
+jest.config.js
+tsconfig.json
+
+# Ignore development and git files
+*.log
+.git
+.DS_Store
+.env.local
+.env.development.local
+
+# Ignore test and documentation files
+coverage/
+*.test.ts
+*.spec.ts
+README.md
+CONTRIBUTING.md
+
+# Ignore development scripts
+scripts/
