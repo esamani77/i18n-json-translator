@@ -1,0 +1,11 @@
+{
+  "welcome": "Bienvenido a nuestra aplicación",
+  "greeting": {
+    "morning": "Buenos días",
+    "evening": "Buenas noches"
+  },
+  "buttons": {
+    "submit": "Enviar\nSome equivalents depending on context: someter, presentar",
+    "cancel": "Cancelar"
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "page": {
+    "download": {
+      "seoTitle": "Download Memoryto App - Learn languages faster",
+      "seoDescription": "Download the Memoryto app for iOS and Android. Learn languages faster with spaced repetition and AI-powered study tools.",
+      "hero": {
+        "title": "Download Memoryto",
+        "description": "Study vocabulary, learn new languages, and improve your memory using powerful AI and spaced repetition techniques."
+      },
+      "features": {
+        "title": "App Features",
+        "feature1": {
+          "title": "Spaced Repetition",
+          "description": "Scientifically proven method that helps you remember vocabulary longer by reviewing words at strategic intervals."
+        },
+        "feature2": {
+          "title": "AI-Powered Learning",
+          "description": "Our AI tailors your learning experience, focusing on words you struggle with and adapting to your learning pace."
+        },
+        "feature3": {
+          "title": "Multiple Languages",
+          "description": "Learn vocabulary in multiple languages with native pronunciation, example sentences, and cultural context."
+        }
+      },
+      "howItWorks": {
+        "title": "How It Works",
+        "step1": {
+          "title": "Download the App",
+          "description": "Get Memoryto from the App Store or Google Play Store on your mobile device."
+        },
+        "step2": {
+          "title": "Choose Your Language",
+          "description": "Select the language you want to learn and set your proficiency level."
+        },
+        "step3": {
+          "title": "Start Learning",
+          "description": "Begin your learning journey with daily practice sessions tailored to your progress."
+        }
+      },
+      "cta": {
+        "title": "Ready to Start Learning?",
+        "description": "Download Memoryto today and join thousands of learners improving their vocabulary and language skills."
+      }
+    },
+    "floatingBox": {
+      "title": "Download Memoryto’s App!",
+      "description": "With powerful free picture dictionary & flashcards."
+    }
+  }
+}
