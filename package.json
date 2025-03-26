@@ -1,6 +1,6 @@
 {
-  "name": "i18n-json-translator",
-  "version": "1.0.0",
+  "name": "gemini-json-translator",
+  "version": "1.0.1",
   "description": "JSON internationalization translator using Google Gemini API",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
