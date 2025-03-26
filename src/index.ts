@@ -10,8 +10,8 @@ async function main(): Promise<void> {
       outputDir: path.resolve(__dirname, "../translations"),
       sourceLanguage: "en",
       targetLanguage: "fa", // Change target language as needed
-      chunkSize: 5, // Adjust chunk size to manage API requests
-      delayBetweenRequests: 1500, // Add delay between chunks
+      chunkSize: 3, // Adjust chunk size to manage API requests
+      delayBetweenRequests: 2500, // Add delay between chunks
     });
 
     console.log("Translation process completed successfully.");

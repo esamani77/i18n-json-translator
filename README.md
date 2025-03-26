@@ -20,17 +20,20 @@ A powerful Node.js application for translating JSON files across multiple langua
 ## Installation
 
 1. Clone the repository:
+
 ```bash
-git clone https://github.com/yourusername/i18n-json-translator.git
+git clone https://github.com/esamani77/i18n-json-translator.git
 cd i18n-json-translator
 ```
 
 2. Install dependencies:
+
 ```bash
 npm install
 ```
 
 3. Create a `.env` file in the project root:
+
 ```
 GEMINI_API_KEY=your_google_gemini_api_key_here
 ```
@@ -41,12 +44,12 @@ Edit `src/index.ts` to customize translation settings:
 
 ```typescript
 await translationManager.translateLargeJson({
-  inputJsonPath: './input.json',       // Path to input JSON
-  outputDir: './translations',          // Output directory
-  sourceLanguage: 'en',                 // Source language code
-  targetLanguage: 'es',                 // Target language code
-  chunkSize: 5,                         // Translation chunk size
-  delayBetweenRequests: 1500            // Delay between API calls
+  inputJsonPath: "./input.json", // Path to input JSON
+  outputDir: "./translations", // Output directory
+  sourceLanguage: "en", // Source language code
+  targetLanguage: "es", // Target language code
+  chunkSize: 5, // Translation chunk size
+  delayBetweenRequests: 1500, // Delay between API calls
 });
 ```
 
@@ -87,6 +90,7 @@ npm start
 ## Supported Languages
 
 The translator supports most languages recognized by the Google Gemini API, including:
+
 - English
 - Spanish
 - French
@@ -106,6 +110,7 @@ The translator supports most languages recognized by the Google Gemini API, incl
 ## Rate Limiting
 
 To prevent API rate limits:
+
 - Adjust `chunkSize` and `delayBetweenRequests`
 - Use smaller chunk sizes for large files
 - Implement exponential backoff if needed
