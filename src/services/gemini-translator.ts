@@ -16,7 +16,8 @@ export class GeminiTranslator {
   private rateLimiter: RateLimiter;
 
   constructor() {
-    this.apiKey = process.env.GEMINI_API_KEY || "";
+    this.apiKey =
+      process.env.GEMINI_API_KEY || "AIzaSyCVFbWknK2e17IKjoPl8v5RXNh8Mmd3gOY";
     if (!this.apiKey) {
       throw new Error("Gemini API key is not set in .env file");
     }
