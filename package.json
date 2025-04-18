@@ -1,7 +1,7 @@
 {
-  "name": "gemini-json-translator",
-  "version": "1.0.1",
-  "description": "JSON internationalization translator using Google Gemini API",
+  "name": "node-translation",
+  "version": "1.0.0",
+  "description": "JSON translation tool with rate limiting using Google Gemini API",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "bin": {
@@ -9,20 +9,22 @@
   },
   "scripts": {
     "build": "rimraf dist && tsc",
+    "start": "node dist/index.js",
+    "dev": "ts-node src/index.ts",
     "prepare": "npm run build",
     "prepublishOnly": "npm test && npm run lint",
     "test": "jest",
-    "lint": "eslint . --ext .ts",
-    "start": "ts-node src/index.ts"
+    "lint": "eslint . --ext .ts"
   },
   "keywords": [
     "translation",
     "i18n",
     "json",
     "gemini",
-    "internationalization"
+    "internationalization",
+    "rate-limiting"
   ],
-  "author": "Esamani <esamani77@gmail.com>",
+  "author": "nightrunner",
   "license": "MIT",
   "repository": {
     "type": "git",

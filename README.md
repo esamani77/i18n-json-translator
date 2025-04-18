@@ -1,136 +1,122 @@
-# I18n JSON Translator
+# Node Translation Tool
 
-## Overview
-
-A powerful Node.js application for translating JSON files across multiple languages using the Google Gemini API. This tool is designed to simplify internationalization (i18n) workflows by automatically translating nested JSON structures.
+A powerful Node.js tool for translating JSON files using Google's Gemini API while respecting rate limits.
 
 ## Features
 
-- 🌐 Supports complex, nested JSON translations
-- 🚀 Chunk-based translation to handle large files
-- 🛡️ Robust error handling
-- 📦 Preserves original JSON structure
-- 🔧 Configurable translation parameters
-
-## Prerequisites
-
-- Node.js (v16+ recommended)
-- Google Gemini API Key
+- ✅ Translate entire JSON files while preserving structure
+- ✅ Built-in rate limiting (15 RPM, 1M TPM, 1.5K RPD)
+- ✅ Progress tracking with auto-resume capability
+- ✅ Chunked processing for large files
+- ✅ Command-line interface
+- ✅ Token usage estimation
+- ✅ Detailed progress reporting
 
 ## Installation
 
-1. Clone the repository:
-
-```bash
-git clone https://github.com/esamani77/i18n-json-translator.git
-cd i18n-json-translator
-```
-
+1. Clone this repository
 2. Install dependencies:
-
-```bash
-npm install
-```
-
-3. Create a `.env` file in the project root:
-
-```
-GEMINI_API_KEY=your_google_gemini_api_key_here
-```
-
-## Configuration
-
-Edit `src/index.ts` to customize translation settings:
-
-```typescript
-await translationManager.translateLargeJson({
-  inputJsonPath: "./input.json", // Path to input JSON
-  outputDir: "./translations", // Output directory
-  sourceLanguage: "en", // Source language code
-  targetLanguage: "es", // Target language code
-  chunkSize: 5, // Translation chunk size
-  delayBetweenRequests: 1500, // Delay between API calls
-});
-```
+   ```
+   npm install
+   ```
+3. Create a `.env` file in the root directory with your Google Gemini API key:
+   ```
+   GEMINI_API_KEY=your_api_key_here
+   ```
+4. Build the project:
+   ```
+   npm run build
+   ```
 
 ## Usage
 
-### Running the Translator
+### Command Line
 
-```bash
-npm start
+The basic syntax is:
+
+```
+node dist/index.js [inputFile] [targetLanguage]
 ```
 
-### Translation Parameters
+Examples:
 
-- `inputJsonPath`: Path to the JSON file you want to translate
-- `outputDir`: Directory where translated files will be saved
-- `sourceLanguage`: Original language of the JSON (e.g., 'en')
-- `targetLanguage`: Target language for translation (e.g., 'es', 'fr')
-- `chunkSize`: Number of items to translate in each API request
-- `delayBetweenRequests`: Milliseconds between chunk translations
+```bash
+# Translate example-input.json to Farsi (default)
+node dist/index.js
 
-## Example Input JSON
+# Translate a specific file to Spanish
+node dist/index.js ./path/to/file.json es
+
+# Translate to German and show help
+node dist/index.js ./content.json de
+node dist/index.js --help
+```
+
+### NPM Scripts
+
+You can also use the following npm scripts:
+
+```bash
+# Translate with default settings
+npm start
+
+# Translate with custom file and language
+npm start -- ./my-file.json fr
+```
+
+## Supported Languages
+
+The tool supports all languages available in the Google Gemini API. Use standard language codes (e.g., 'en', 'es', 'fr', 'zh', etc.).
+
+## Input Format
+
+The tool expects a JSON file as input. The JSON structure will be preserved, with all string values being translated.
+
+Example input:
 
 ```json
 {
   "page": {
-    "langs": {
-      "en-uk": "English (UK)",
-      "en-us": "English (US)"
-    },
+    "title": "Welcome to our website",
+    "subtitle": "Learn more about our services",
     "navigation": {
       "home": "Home",
-      "about": "About"
+      "about": "About Us"
     }
   }
 }
 ```
 
-## Supported Languages
+## Output
 
-The translator supports most languages recognized by the Google Gemini API, including:
-
-- English
-- Spanish
-- French
-- German
-- Arabic
-- Chinese
-- Russian
-- And many more!
-
-## Troubleshooting
-
-- Ensure your Gemini API key is valid
-- Check internet connectivity
-- Verify input JSON structure
-- Monitor console for detailed error messages
+The translated JSON will be saved in the specified output directory (default: `./translations`) with a filename that includes the target language and timestamp.
 
 ## Rate Limiting
 
-To prevent API rate limits:
+The tool automatically handles rate limiting for the Google Gemini API:
 
-- Adjust `chunkSize` and `delayBetweenRequests`
-- Use smaller chunk sizes for large files
-- Implement exponential backoff if needed
+- 15 requests per minute (RPM)
+- 1,000,000 tokens per minute (TPM)
+- 1,500 requests per day (RPD)
 
-## Contributing
+If rate limits are reached, the tool will automatically wait and resume when possible.
 
-1. Fork the repository
-2. Create a feature branch
-3. Commit your changes
-4. Push to the branch
-5. Create a Pull Request
+## Progress Tracking
+
+Translation progress is saved periodically and can be resumed if the process is interrupted. Progress files are stored in the output directory with the naming pattern `[filename]-[language]-progress.json`.
+
+## Advanced Configuration
+
+When using programmatically, you can configure:
+
+- `chunkSize`: Number of keys to translate per batch (default: 5)
+- `delayBetweenRequests`: Delay in milliseconds between chunk requests (default: 1000)
+- `saveProgressInterval`: Number of translations before saving progress (default: 5)
+
+## For Developers
+
+See [DEVELOP.md](DEVELOP.md) for detailed development documentation.
 
 ## License
 
-[MIT License]
-
-## Disclaimer
-
-This tool uses the Google Gemini API. Ensure compliance with Google's terms of service and API usage guidelines.
-
-## Support
-
-For issues or questions, please open a GitHub issue or contact the maintainer.
+MIT
