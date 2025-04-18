@@ -18,6 +18,7 @@ COPY . .
 
 # Build the application
 RUN pnpm run build
+RUN pnpm run api
 
 # Set environment variable for port
 ENV PORT=3000
