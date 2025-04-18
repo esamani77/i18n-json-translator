@@ -6,7 +6,20 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const translation_manager_1 = require("./services/translation-manager");
 const path_1 = __importDefault(require("path"));
 const fs_extra_1 = __importDefault(require("fs-extra"));
+const server_1 = require("./api/server");
 async function main() {
+    // Check if API mode is requested
+    if (process.argv.includes("--api")) {
+        try {
+            const { port } = await (0, server_1.startServer)();
+            console.log(`API server is running on port ${port}`);
+        }
+        catch (error) {
+            console.error("Failed to start API server:", error);
+            process.exit(1);
+        }
+        return;
+    }
     try {
         console.log("Starting translation process with rate limiting...");
         console.log("Rate limits: 15 requests/minute, 1,000,000 tokens/minute, 1,500 requests/day");
@@ -16,7 +29,7 @@ async function main() {
         fs_extra_1.default.ensureDirSync(outputDir);
         // Get command line arguments or use defaults
         const inputFile = process.argv[2] || path_1.default.resolve(__dirname, "../example-input.json");
-        const targetLang = process.argv[3] || "fa";
+        const targetLang = "fa";
         console.log(`Input file: ${inputFile}`);
         console.log(`Target language: ${targetLang}`);
         console.log(`Output directory: ${outputDir}`);
@@ -48,14 +61,16 @@ Node Translation CLI
 
 Usage:
   node dist/index.js [inputFile] [targetLanguage]
+  node dist/index.js --api                        # Start the API server
 
 Examples:
-  node dist/index.js                                 # Uses example-input.json and 'fa' as target language
-  node dist/index.js ./my-file.json es               # Translates my-file.json to Spanish
-  node dist/index.js ./data/content.json zh          # Translates content.json to Chinese
+  node dist/index.js                             # Uses example-input.json and 'fa' as target language
+  node dist/index.js ./my-file.json es           # Translates my-file.json to Spanish
+  node dist/index.js ./data/content.json zh      # Translates content.json to Chinese
   
 Options:
   --help, -h   Show this help message
+  --api        Start the API server
   `);
     process.exit(0);
 }

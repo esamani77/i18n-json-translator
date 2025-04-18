@@ -1,8 +1,21 @@
 import { TranslationManager } from "./services/translation-manager";
 import path from "path";
 import fs from "fs-extra";
+import { startServer } from "./api/server";
 
 async function main(): Promise<void> {
+  // Check if API mode is requested
+  if (process.argv.includes("--api")) {
+    try {
+      const { port } = await startServer();
+      console.log(`API server is running on port ${port}`);
+    } catch (error) {
+      console.error("Failed to start API server:", error);
+      process.exit(1);
+    }
+    return;
+  }
+
   try {
     console.log("Starting translation process with rate limiting...");
     console.log(
@@ -57,14 +70,16 @@ Node Translation CLI
 
 Usage:
   node dist/index.js [inputFile] [targetLanguage]
+  node dist/index.js --api                        # Start the API server
 
 Examples:
-  node dist/index.js                                 # Uses example-input.json and 'fa' as target language
-  node dist/index.js ./my-file.json es               # Translates my-file.json to Spanish
-  node dist/index.js ./data/content.json zh          # Translates content.json to Chinese
+  node dist/index.js                             # Uses example-input.json and 'fa' as target language
+  node dist/index.js ./my-file.json es           # Translates my-file.json to Spanish
+  node dist/index.js ./data/content.json zh      # Translates content.json to Chinese
   
 Options:
   --help, -h   Show this help message
+  --api        Start the API server
   `);
   process.exit(0);
 } else {

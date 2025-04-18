@@ -52,7 +52,7 @@ export class TranslationManager {
     const outputPath = path.join(outputDir, outputFilename);
     const progressFilename = `${outputBasename}-${targetLanguage}-progress.json`;
     const progressFilePath = path.join(outputDir, progressFilename);
-
+    
     // Translate JSON with chunking and progress tracking
     const translatedJson = await this.translateJsonWithChunking(
       inputJson,

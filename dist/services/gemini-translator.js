@@ -30,9 +30,22 @@ class GeminiTranslator {
     }
     async translate({ query, target, source, }) {
         try {
-            const prompt = `Translate this phrase or vocabulary: "${query}" to ${target} from ${source}. 
-                Give me only the translation. If there's an equivalent phrase in ${target} language, 
-                provide that phrase. Be the best for ux writing and seo writing.`;
+            const prompt = `Translate this phrase or vocabulary: ${query} to ${target} from ${source}. 
+Give me only the translation. If there's an equivalent phrase in ${target} language, provide that phrase. 
+Be the best for UX writing and SEO writing: keep it short, natural, clear, and human-friendly. Prioritize meaning, 
+tone, and context over literal translation.
+
+UX & SEO Writing Guidelines to follow:
+1. Use clear, keyword-rich language.
+2. Prioritize plain, natural tone—avoid robotic or overly formal phrasing.
+3. Keep translations concise; remove unnecessary words.
+4. Make content scannable and readable (especially for web/app UI).
+5. If applicable, favor phrases that work well in headings or buttons.
+6. Use terms that real users would actually search for or click on.
+7. Maintain emotional tone and helpful intent (e.g., encouragement, clarity, action).
+8. Preserve the tone and style of the original phrase—whether it's friendly, formal, playful, or serious.
+9. Keep the **base meaning** of the original phrase intact—do not oversimplify or reinterpret.
+`;
             // Estimate tokens for the request (prompt + response)
             const estimatedTokens = this.estimateTokens(prompt) + this.estimateTokens(query) * 2;
             // Wait for rate limit to allow the request

@@ -9,6 +9,7 @@ A powerful Node.js tool for translating JSON files using Google's Gemini API whi
 - ✅ Progress tracking with auto-resume capability
 - ✅ Chunked processing for large files
 - ✅ Command-line interface
+- ✅ RESTful API with CORS support
 - ✅ Token usage estimation
 - ✅ Detailed progress reporting
 
@@ -51,6 +52,20 @@ node dist/index.js ./path/to/file.json es
 node dist/index.js ./content.json de
 node dist/index.js --help
 ```
+
+### API Server
+
+You can also run the tool as an API server that accepts translation requests:
+
+```bash
+# Start the API server
+npm run api
+
+# Start the API server in development mode
+npm run api:dev
+```
+
+For detailed API documentation, see [API.md](API.md).
 
 ### NPM Scripts
 
