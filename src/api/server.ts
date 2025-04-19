@@ -7,6 +7,7 @@ import path from "path";
 import os from "os";
 import dotenv from "dotenv";
 import { Server } from "http";
+import { JsonComparator } from "../services/json-comparator";
 
 dotenv.config();
 
@@ -79,6 +80,60 @@ app.post("/api/translate", async (req, res) => {
     });
   } catch (error) {
     console.error("Translation API error:", error);
+    res.status(500).json({
+      success: false,
+      error: error instanceof Error ? error.message : "Unknown error",
+    });
+  }
+});
+
+// New endpoint for comparing and improving JSON translations
+app.post("/api/compare-and-improve", async (req, res) => {
+  console.log("Received comparison and improvement request");
+  try {
+    const {
+      baseJson,
+      targetJson,
+      sourceLanguage = "en",
+      targetLanguage,
+      apiKey,
+    } = req.body;
+
+    // Validate required fields
+    if (!baseJson)
+      return res.status(400).json({ error: "Missing base JSON data" });
+    if (!targetJson)
+      return res.status(400).json({ error: "Missing target JSON data" });
+    if (!targetLanguage)
+      return res.status(400).json({ error: "Missing target language" });
+
+    // Set API key if provided
+    if (apiKey) {
+      process.env.GEMINI_API_KEY = apiKey;
+    } else if (!process.env.GEMINI_API_KEY) {
+      return res.status(400).json({ error: "Missing API key" });
+    }
+
+    // Initialize JSON comparator and improve translations
+    const jsonComparator = new JsonComparator();
+    const result = await jsonComparator.compareAndImprove({
+      baseJson,
+      targetJson,
+      sourceLanguage,
+      targetLanguage,
+    });
+
+    // Return the improved JSON and statistics
+    res.json({
+      success: true,
+      improvedData: result.updatedJson,
+      statistics: result.statistics,
+      updatedKeys: result.updatedKeys,
+      sourceLanguage,
+      targetLanguage,
+    });
+  } catch (error) {
+    console.error("JSON comparison API error:", error);
     res.status(500).json({
       success: false,
       error: error instanceof Error ? error.message : "Unknown error",

@@ -94,6 +94,40 @@
           transform: rotate(360deg);
         }
       }
+      /* Tab styles */
+      .tabs {
+        display: flex;
+        border-bottom: 1px solid #ddd;
+        margin-bottom: 20px;
+      }
+      .tab-button {
+        padding: 10px 20px;
+        background: #f1f1f1;
+        border: 1px solid #ddd;
+        border-bottom: none;
+        cursor: pointer;
+        margin-right: 5px;
+        border-top-left-radius: 4px;
+        border-top-right-radius: 4px;
+      }
+      .tab-button.active {
+        background: white;
+        border-bottom: 1px solid white;
+        margin-bottom: -1px;
+      }
+      .tab-content {
+        display: none;
+      }
+      .tab-content.active {
+        display: block;
+      }
+      .statistics {
+        background-color: #e9f7ef;
+        padding: 15px;
+        border-radius: 4px;
+        margin-top: 20px;
+        border: 1px solid #c3e6cb;
+      }
     </style>
   </head>
   <body>
@@ -101,16 +135,21 @@
       <h1>Translation API Client</h1>
       <p>
         This example demonstrates how to use the Translation API to translate
-        JSON data.
+        and improve JSON data.
       </p>
+
+      <div class="tabs">
+        <button class="tab-button active" data-tab="translate">
+          Translate JSON
+        </button>
+        <button class="tab-button" data-tab="compare">
+          Compare & Improve JSON
+        </button>
+      </div>
 
       <div class="form-group">
         <label for="apiEndpoint">API Endpoint:</label>
-        <input
-          type="text"
-          id="apiEndpoint"
-          value="http://localhost:3000/api/translate"
-        />
+        <input type="text" id="apiEndpoint" value="http://localhost:3000/api" />
       </div>
 
       <div class="form-group">
@@ -122,42 +161,44 @@
         />
       </div>
 
-      <div class="form-group">
-        <label for="sourceLanguage">Source Language:</label>
-        <select id="sourceLanguage">
-          <option value="en">English</option>
-          <!-- <option value="es">Spanish</option>
-          <option value="fr">French</option>
-          <option value="de">German</option>
-          <option value="it">Italian</option>
-          <option value="zh">Chinese</option>
-          <option value="ja">Japanese</option>
-          <option value="ko">Korean</option>
-          <option value="ru">Russian</option>
-          <option value="ar">Arabic</option> -->
-        </select>
-      </div>
+      <!-- Translate JSON Tab -->
+      <div id="translate-tab" class="tab-content active">
+        <div class="form-group">
+          <label for="sourceLanguage">Source Language:</label>
+          <select id="sourceLanguage">
+            <option value="en">English</option>
+            <!-- <option value="es">Spanish</option>
+            <option value="fr">French</option>
+            <option value="de">German</option>
+            <option value="it">Italian</option>
+            <option value="zh">Chinese</option>
+            <option value="ja">Japanese</option>
+            <option value="ko">Korean</option>
+            <option value="ru">Russian</option>
+            <option value="ar">Arabic</option> -->
+          </select>
+        </div>
 
-      <div class="form-group">
-        <label for="targetLanguage">Target Language:</label>
-        <select id="targetLanguage">
-          <option value="es">Spanish</option>
-          <option value="fr">French</option>
-          <option value="de">German</option>
-          <option value="it">Italian</option>
-          <option value="zh">Chinese</option>
-          <option value="ja">Japanese</option>
-          <option value="ko">Korean</option>
-          <option value="ru">Russian</option>
-          <option value="ar">Arabic</option>
-          <option value="en">English</option>
-          <option value="fa">Persian</option>
-        </select>
-      </div>
+        <div class="form-group">
+          <label for="targetLanguage">Target Language:</label>
+          <select id="targetLanguage">
+            <option value="es">Spanish</option>
+            <option value="fr">French</option>
+            <option value="de">German</option>
+            <option value="it">Italian</option>
+            <option value="zh">Chinese</option>
+            <option value="ja">Japanese</option>
+            <option value="ko">Korean</option>
+            <option value="ru">Russian</option>
+            <option value="ar">Arabic</option>
+            <option value="en">English</option>
+            <option value="fa">Persian</option>
+          </select>
+        </div>
 
-      <div class="form-group">
-        <label for="jsonInput">JSON Input:</label>
-        <textarea id="jsonInput">
+        <div class="form-group">
+          <label for="jsonInput">JSON Input:</label>
+          <textarea id="jsonInput">
 {
   "homepage": {
     "title": "Welcome to our website",
@@ -177,30 +218,132 @@
     "terms": "Terms of Service"
   }
 }</textarea
-        >
+          >
+        </div>
+
+        <button id="translateBtn">Translate JSON</button>
+
+        <div id="status" class="status" style="display: none"></div>
+
+        <div id="resultContainer" class="result" style="display: none">
+          <label for="jsonOutput">Translated JSON:</label>
+          <textarea id="jsonOutput" readonly></textarea>
+        </div>
       </div>
 
-      <button id="translateBtn">Translate JSON</button>
+      <!-- Compare & Improve Tab -->
+      <div id="compare-tab" class="tab-content">
+        <div class="form-group">
+          <label for="sourceLanguageCompare">Source Language:</label>
+          <select id="sourceLanguageCompare">
+            <option value="en">English</option>
+          </select>
+        </div>
 
-      <div id="status" class="status" style="display: none"></div>
+        <div class="form-group">
+          <label for="targetLanguageCompare">Target Language:</label>
+          <select id="targetLanguageCompare">
+            <option value="es">Spanish</option>
+            <option value="fr">French</option>
+            <option value="de">German</option>
+            <option value="it">Italian</option>
+            <option value="zh">Chinese</option>
+            <option value="ja">Japanese</option>
+            <option value="ko">Korean</option>
+            <option value="ru">Russian</option>
+            <option value="ar">Arabic</option>
+            <option value="en">English</option>
+            <option value="fa">Persian</option>
+          </select>
+        </div>
 
-      <div id="resultContainer" class="result" style="display: none">
-        <label for="jsonOutput">Translated JSON:</label>
-        <textarea id="jsonOutput" readonly></textarea>
+        <div class="form-group">
+          <label for="baseJsonInput">Base JSON (Source Language):</label>
+          <textarea id="baseJsonInput">
+{
+  "homepage": {
+    "title": "Welcome to our website",
+    "subtitle": "Discover amazing products and services",
+    "cta": "Get Started Now"
+  },
+  "navigation": {
+    "home": "Home",
+    "products": "Products",
+    "services": "Services",
+    "about": "About Us",
+    "contact": "Contact"
+  }
+}</textarea
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="targetJsonInput">Target JSON (Target Language):</label>
+          <textarea id="targetJsonInput">
+{
+  "homepage": {
+    "title": "Bienvenido a nuestro sitio web",
+    "subtitle": "Descubre los increíbles productos y servicios que tenemos disponibles para todos nuestros clientes",
+    "cta": "Empieza ahora"
+  },
+  "navigation": {
+    "home": "Inicio",
+    "products": "Productos",
+    "services": "Servicios",
+    "about": "Sobre Nosotros",
+    "contact": "Contacto"
+  }
+}</textarea
+          >
+        </div>
+
+        <button id="compareBtn">Compare & Improve JSON</button>
+
+        <div id="compareStatus" class="status" style="display: none"></div>
+
+        <div id="statisticsContainer" class="statistics" style="display: none">
+          <h3>Improvement Statistics</h3>
+          <div id="statisticsOutput"></div>
+        </div>
+
+        <div id="compareResultContainer" class="result" style="display: none">
+          <label for="improvedJsonOutput">Improved JSON:</label>
+          <textarea id="improvedJsonOutput" readonly></textarea>
+        </div>
       </div>
     </div>
 
     <script>
       document.addEventListener("DOMContentLoaded", function () {
+        // Tab functionality
+        const tabButtons = document.querySelectorAll(".tab-button");
+        const tabContents = document.querySelectorAll(".tab-content");
+
+        tabButtons.forEach((button) => {
+          button.addEventListener("click", () => {
+            const tabId = button.getAttribute("data-tab");
+
+            // Hide all tab contents and deactivate all buttons
+            tabContents.forEach((tab) => tab.classList.remove("active"));
+            tabButtons.forEach((btn) => btn.classList.remove("active"));
+
+            // Show selected tab content and activate button
+            document.getElementById(`${tabId}-tab`).classList.add("active");
+            button.classList.add("active");
+          });
+        });
+
+        // Translation Tab Functionality
         const translateBtn = document.getElementById("translateBtn");
         const status = document.getElementById("status");
         const resultContainer = document.getElementById("resultContainer");
         const jsonOutput = document.getElementById("jsonOutput");
 
         translateBtn.addEventListener("click", async function () {
-          const apiEndpoint = document
+          const baseEndpoint = document
             .getElementById("apiEndpoint")
             .value.trim();
+          const apiEndpoint = `${baseEndpoint}/translate`;
           const apiKey = document.getElementById("apiKey").value.trim();
           const sourceLanguage =
             document.getElementById("sourceLanguage").value;
@@ -254,7 +397,6 @@
             resultContainer.style.display = "block";
             showStatus("Translation completed successfully!", "success");
           } catch (error) {
-            console.error("Translation error:", error);
             showStatus(`Error: ${error.message}`, "error");
           } finally {
             // Reset button state
@@ -263,10 +405,132 @@
           }
         });
 
+        // Compare & Improve Tab Functionality
+        const compareBtn = document.getElementById("compareBtn");
+        const compareStatus = document.getElementById("compareStatus");
+        const compareResultContainer = document.getElementById(
+          "compareResultContainer"
+        );
+        const statisticsContainer = document.getElementById(
+          "statisticsContainer"
+        );
+        const improvedJsonOutput =
+          document.getElementById("improvedJsonOutput");
+        const statisticsOutput = document.getElementById("statisticsOutput");
+
+        compareBtn.addEventListener("click", async function () {
+          const baseEndpoint = document
+            .getElementById("apiEndpoint")
+            .value.trim();
+          const apiEndpoint = `${baseEndpoint}/compare-and-improve`;
+          const apiKey = document.getElementById("apiKey").value.trim();
+          const sourceLanguage = document.getElementById(
+            "sourceLanguageCompare"
+          ).value;
+          const targetLanguage = document.getElementById(
+            "targetLanguageCompare"
+          ).value;
+          let baseJson, targetJson;
+
+          // Validate and parse JSON inputs
+          try {
+            baseJson = JSON.parse(
+              document.getElementById("baseJsonInput").value
+            );
+            targetJson = JSON.parse(
+              document.getElementById("targetJsonInput").value
+            );
+          } catch (error) {
+            showCompareStatus("Error: Invalid JSON input", "error");
+            return;
+          }
+
+          // Validate API key
+          if (!apiKey) {
+            showCompareStatus("Error: Gemini API key is required", "error");
+            return;
+          }
+
+          // Disable button and show loading state
+          compareBtn.disabled = true;
+          compareBtn.innerHTML =
+            'Comparing & Improving... <span class="spinner"></span>';
+          compareStatus.style.display = "none";
+          compareResultContainer.style.display = "none";
+          statisticsContainer.style.display = "none";
+
+          try {
+            const response = await fetch(apiEndpoint, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                baseJson,
+                targetJson,
+                sourceLanguage,
+                targetLanguage,
+                apiKey,
+              }),
+            });
+
+            const result = await response.json();
+
+            if (!response.ok || !result.success) {
+              throw new Error(result.error || "Failed to compare and improve");
+            }
+
+            // Display result
+            improvedJsonOutput.value = JSON.stringify(
+              result.improvedData,
+              null,
+              2
+            );
+            compareResultContainer.style.display = "block";
+
+            // Display statistics
+            const stats = result.statistics;
+            statisticsOutput.innerHTML = `
+              <p><strong>Total Keys:</strong> ${stats.totalKeys}</p>
+              <p><strong>Updated Keys:</strong> ${stats.updatedKeys}</p>
+              <p><strong>Unchanged Keys:</strong> ${stats.unchangedKeys}</p>
+              ${
+                result.updatedKeys.length > 0
+                  ? `
+                <p><strong>Keys Updated:</strong></p>
+                <ul>
+                  ${result.updatedKeys.map((key) => `<li>${key}</li>`).join("")}
+                </ul>
+              `
+                  : ""
+              }
+            `;
+            statisticsContainer.style.display = "block";
+
+            showCompareStatus(
+              "JSON improvement completed successfully!",
+              "success"
+            );
+          } catch (error) {
+            showCompareStatus(`Error: ${error.message}`, "error");
+          } finally {
+            // Reset button state
+            compareBtn.disabled = false;
+            compareBtn.innerHTML = "Compare & Improve JSON";
+          }
+        });
+
+        // Helper functions
         function showStatus(message, type) {
           status.textContent = message;
           status.className = `status ${type}`;
           status.style.display = "block";
+        }
+
+        function showCompareStatus(message, type) {
+          compareStatus.textContent = message;
+          compareStatus.className = `status ${type}`;
+          compareStatus.style.display = "block";
         }
       });
     </script>

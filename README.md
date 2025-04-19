@@ -5,6 +5,7 @@ A powerful Node.js tool for translating JSON files using Google's Gemini API whi
 ## Features
 
 - ✅ Translate entire JSON files while preserving structure
+- ✅ Compare and improve translations to ensure conciseness
 - ✅ Built-in rate limiting (15 RPM, 1M TPM, 1.5K RPD)
 - ✅ Progress tracking with auto-resume capability
 - ✅ Chunked processing for large files
@@ -78,6 +79,21 @@ npm start
 # Translate with custom file and language
 npm start -- ./my-file.json fr
 ```
+
+## JSON Comparison and Improvement
+
+The tool now includes a feature to compare a base JSON (source language) with a target JSON (translated) and improve translations that might be unnecessarily verbose.
+
+How it works:
+
+1. It compares each key's value in both JSONs
+2. If the target language value is longer than the source language value, it retranslates that key
+3. This helps ensure translations are concise and accurate
+
+You can use this feature through:
+
+- The API endpoint: `/api/compare-and-improve`
+- The HTML client interface (toggle to the "Compare & Improve JSON" tab)
 
 ## Supported Languages
 

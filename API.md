@@ -82,6 +82,71 @@ docker-compose up
 }
 ```
 
+### Compare and Improve JSON Translations
+
+**URL**: `/api/compare-and-improve`
+
+**Method**: `POST`
+
+**Request Body**:
+
+```json
+{
+  "baseJson": {
+    "greeting": "Hello",
+    "welcome": "Welcome to our application",
+    "nested": {
+      "item1": "First item",
+      "item2": "Second item"
+    }
+  },
+  "targetJson": {
+    "greeting": "Hola",
+    "welcome": "Bienvenido a nuestra aplicación super genial",
+    "nested": {
+      "item1": "Primer artículo en la lista",
+      "item2": "Segundo elemento"
+    }
+  },
+  "targetLanguage": "es",
+  "sourceLanguage": "en",
+  "apiKey": "YOUR_GEMINI_API_KEY"
+}
+```
+
+- `baseJson` (required): The base JSON object in the source language
+- `targetJson` (required): The translated JSON object to improve
+- `targetLanguage` (required): The ISO code of the target language (e.g., "es" for Spanish)
+- `sourceLanguage` (optional): The ISO code of the source language (defaults to "en")
+- `apiKey` (optional if set in .env): Your Gemini API key
+
+**How it works**:
+This endpoint compares each key's value in both JSONs. If the target language value is longer than the source language value, it retranslates that key using the Gemini API for a better, more concise translation.
+
+**Response**:
+
+```json
+{
+  "success": true,
+  "improvedData": {
+    "greeting": "Hola",
+    "welcome": "Bienvenido a nuestra aplicación",
+    "nested": {
+      "item1": "Primer elemento",
+      "item2": "Segundo elemento"
+    }
+  },
+  "statistics": {
+    "totalKeys": 4,
+    "updatedKeys": 2,
+    "unchangedKeys": 2
+  },
+  "updatedKeys": ["welcome", "nested.item1"],
+  "sourceLanguage": "en",
+  "targetLanguage": "es"
+}
+```
+
 ### Health Check
 
 **URL**: `/api/health`
@@ -111,6 +176,25 @@ curl -X POST http://localhost:3000/api/translate \
   }'
 ```
 
+Example for the compare-and-improve endpoint:
+
+```bash
+curl -X POST http://localhost:3000/api/compare-and-improve \
+  -H "Content-Type: application/json" \
+  -d '{
+    "baseJson": {
+      "greeting": "Hello",
+      "welcome": "Welcome to our application"
+    },
+    "targetJson": {
+      "greeting": "Bonjour",
+      "welcome": "Bienvenue dans notre application magnifique"
+    },
+    "targetLanguage": "fr",
+    "apiKey": "YOUR_GEMINI_API_KEY"
+  }'
+```
+
 ## Example Usage with JavaScript Fetch
 
 ```javascript
@@ -131,6 +215,33 @@ const response = await fetch("http://localhost:3000/api/translate", {
 
 const result = await response.json();
 console.log(result.translatedData);
+```
+
+For the compare-and-improve endpoint:
+
+```javascript
+const response = await fetch("http://localhost:3000/api/compare-and-improve", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    baseJson: {
+      greeting: "Hello",
+      welcome: "Welcome to our application",
+    },
+    targetJson: {
+      greeting: "Hallo",
+      welcome: "Willkommen bei unserer fantastischen Anwendung",
+    },
+    targetLanguage: "de",
+    apiKey: "YOUR_GEMINI_API_KEY",
+  }),
+});
+
+const result = await response.json();
+console.log(result.improvedData);
+console.log(result.statistics);
 ```
 
 ## Notes
