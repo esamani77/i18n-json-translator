@@ -129,6 +129,8 @@ const tryPort = (
         console.log(`Translation API server running on port ${port}`);
         resolve({ server, port });
       });
+
+    server.timeout = 1000 * 60 * 60 * 24; // 1 day
   });
 };
 
