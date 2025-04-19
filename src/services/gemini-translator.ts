@@ -17,7 +17,7 @@ export class GeminiTranslator {
 
   constructor() {
     this.apiKey =
-      process.env.GEMINI_API_KEY || "AIzaSyCVFbWknK2e17IKjoPl8v5RXNh8Mmd3gOY";
+      process.env.GEMINI_API_KEY || "AIzaSyBM4w1VLve_SuVpIq6KutYG3NFdaoAgldg";
     if (!this.apiKey) {
       throw new Error("Gemini API key is not set in .env file");
     }
